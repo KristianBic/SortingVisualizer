@@ -1,0 +1,199 @@
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #646669;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #646669;
+  border-radius: 2px !important;
+  -webkit-transition: 0.125s;
+  transition: 0.125s;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+}
+
+@-webkit-keyframes blendIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes blendIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+@-webkit-keyframes slideInFromTop {
+  0% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-10%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+body {
+  background: #323437;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-animation: 2s ease-out 0s 1 blendIn;
+          animation: 2s ease-out 0s 1 blendIn;
+  margin: 0 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header .title {
+  color: #e2b714;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+button {
+  cursor: pointer;
+  background-color: #646669;
+  color: #ffe68a;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  height: 2rem;
+  border-radius: 6px;
+  transition: 0.6s;
+  margin-bottom: 1rem;
+}
+
+button:hover {
+  background-color: #323437;
+  border: solid #646669 2px;
+}
+
+button:active {
+  margin-left: 1px 1px 0;
+  box-shadow: -1px -1px 1px #323437;
+  outline: 1px solid #323437;
+  -moz-outline-radius: 7px;
+  color: #323437;
+}
+
+.content {
+  display: flex;
+}
+.content .leftBlock {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+  padding: 5%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.content .leftBlock h6 {
+  width: 100%;
+  margin: 0;
+  margin-top: 1.5rem;
+  color: #d1d0c5;
+  font-size: 0.875rem;
+}
+.content .leftBlock .rangeBar {
+  width: 100%;
+}
+.content .leftBlock .btnArray {
+  color: #d1d0c5;
+}
+.content .leftBlock input[type=range] {
+  -webkit-appearance: none !important;
+  /*Needed to reset default slider styles */
+  width: 100%;
+  height: 10px;
+  background-color: #646669;
+  margin-top: 0.5rem;
+  color: #e2b714;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.content .leftBlock input[type=range]:hover {
+  background-color: #f2d66a;
+}
+.content .leftBlock input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 16px;
+  height: 16px;
+  background-color: #e2b714;
+  color: #e2b714;
+  border-radius: 30px;
+  box-shadow: 0px 0px 3px #9c7e0e;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.content .leftBlock input[type=range]::-webkit-slider-thumb:hover {
+  background-color: #846b0c;
+}
+.content .leftBlock input[type=range]::-webkit-slider-thumb:active {
+  box-shadow: 0px 0px 1px #9c7e0e;
+}
+.content .leftBlock .rangevalue {
+  text-align: center;
+  display: block;
+  margin-top: 5px;
+  font-size: small;
+  width: 100%;
+  color: #646669;
+  font-weight: bold;
+}
+.content .leftBlock #number_of_comparison {
+  color: #646669;
+}
+.content .center {
+  width: 70%;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin: 0 auto;
+  gap: 5px;
+  min-height: 36rem;
+  overflow: hidden;
+}
+.content .center .bar {
+  width: 100%;
+  background-color: #646669;
+  color: #323437;
+  transition: 0.2s all ease;
+  font-family: "Valencia", "Helvetica Neue";
+  font-weight: bold;
+  text-align: center;
+}
+.content .center .bar__id {
+  font-size: 1rem;
+  width: 100%;
+  text-align: center;
+}
+.content .rightBlock {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 15%;
+  padding: 5%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}

@@ -1,0 +1,56 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="icon" type="image/x-icon" href="../images/favicon_sort.svg" />
+		<title id="Title">Sorting Visualizer</title>
+	</head>
+	<body>
+		<div class="header">
+			<h2 class="title" style="display: flex; align-items: center">
+				<img class="titleImage" src="../images/title_logo.svg" />Sorting
+				Visualizer
+			</h2>
+		</div>
+		<div class="content">
+			<div class="leftBlock">
+				<button id="new_Array" class="btnArray" onclick="createBars()">
+					New Array
+				</button>
+				<h6>Array size</h6>
+				<input
+					id="array_size"
+					class="rangeBar"
+					type="range"
+					min="1"
+					max="100"
+					value="20"
+					oninput="createBars()"
+				/>
+				<output id="range_ArraySize" class="rangevalue">20</output>
+				<h6>Sort speed</h6>
+				<input
+					id="sort_speed"
+					class="rangeBar"
+					type="range"
+					min="0"
+					max="300"
+					value="150"
+					oninput="setDelay()"
+				/>
+				<output id="range_SortSpeed" class="rangevalue">150</output>
+				<p id="number_of_comparison" class="center_text">Comparisons: 0</p>
+			</div>
+			<div class="center"></div>
+			<div class="rightBlock">
+				<button id="Select_Sort" class="btnSort" onclick="selectSort()">
+					Selection Sort
+				</button>
+				<button id="Select_Sort" class="btnSort">Quick Sort</button>
+			</div>
+		</div>
+		<script src="../js/script.js"></script>
+	</body>
+</html>
