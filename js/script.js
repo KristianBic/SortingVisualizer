@@ -1,6 +1,7 @@
 const container = document.querySelector(".center");
 var delaySpeed = document.getElementById("sort_speed").value;
 let allBars;
+let numberOfComparisons = 0;
 
 createBars();
 
@@ -8,6 +9,7 @@ function createBars() {
     removeAllChildNodes(container);
     const arraySize = document.getElementById("array_size").value;
     const LABEL_FONTSIZE = 16;
+    numberOfComparisons = 0;
     document.getElementById("range_ArraySize").innerHTML = arraySize;
 
     for (let i = 0; i < arraySize; i++) {
@@ -74,12 +76,12 @@ let delayCode = async (defaultDelay = delaySpeed) => {
 }
 
 /**
- * swap 2 values
+ * swapBoth 2 values
  * @param {*} allBars 
  * @param {*} i 
  * @param {*} minIndex 
  */
-function swap(i, minIndex) {
+function swapBoth(i, minIndex) {
     let temp1 = allBars[minIndex].style.height;
     let temp2 = allBars[minIndex].childNodes[0].innerText;
 
@@ -87,6 +89,11 @@ function swap(i, minIndex) {
     allBars[minIndex].childNodes[0].innerText = allBars[i].childNodes[0].innerText;
     allBars[i].style.height = temp1;
     allBars[i].childNodes[0].innerText = temp2;
+}
+
+function swapSingle(first, second) {
+    allBars[first].style.height = allBars[second].style.height;
+    allBars[first].childNodes[0].innerText = allBars[second].childNodes[0].innerText;
 }
 
 /**
@@ -112,20 +119,31 @@ function changeBarColor(index, color) {
     allBars[index].style.backgroundColor = getHexColor();
 }
 
+//change all bars to color 'primaryMain'
+async function changeColorOfEveryBar() {
+    for (let i = 0; i < allBars.length; i++) {
+        await delayCode(20);
+        changeBarColor(i, "primaryMain")
+    }
+}
+
+function changeNumberOfComparisons() {
+    document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`;
+    numberOfComparisons++;
+}
+
 /**
  * Function for sorting with method 'Select sort'
  * If we want to make it faster, then we can comment one of the 'delayCode' functions
  */
 async function selectSort() {
     allBars = document.querySelectorAll(".bar");
-    let numberOfComparisons = 0;
 
     for (let i = 0; i < allBars.length; i++) {
         changeBarColor(i, "green"); // current compared bar(value)
         let minIndex = i;
         for (let j = i + 1; j < allBars.length; j++) {
-            document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`; //record number of comparision
-            numberOfComparisons++;
+            changeNumberOfComparisons();
             changeBarColor(j, "primaryVariant") //comapring this bar with allBars[i]
             await delayCode();
 
@@ -136,8 +154,7 @@ async function selectSort() {
                 minIndex = j;
             } else changeBarColor(j, "white");
         }
-
-        swap(i, minIndex);
+        swapBoth(i, minIndex);
         await delayCode();
 
         changeBarColor(minIndex, "red") //smallest number from last cycle
@@ -148,22 +165,20 @@ async function selectSort() {
 
 async function insertSort() {
     allBars = document.querySelectorAll(".bar");
-    let numberOfComparisons = 0;
 
     for (let i = 1; i < allBars.length; i++) {
         changeBarColor(i, "green");
         let j = i - 1;
 
-        let key = parseInt(allBars[i].style.height);
-        let keyLabelValue = allBars[i].childNodes[0].innerText;
+        const key = parseInt(allBars[i].style.height);
+        const keyLabelValue = allBars[i].childNodes[0].innerText;
+
         await delayCode();
         while (j >= 0 && (parseInt(allBars[j].style.height) > key)) {
-            document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`;
-            numberOfComparisons++;
+            changeNumberOfComparisons();
 
             changeBarColor(j, "primaryVariant"); //running color
-            allBars[j + 1].style.height = allBars[j].style.height;
-            allBars[j + 1].childNodes[0].innerText = allBars[j].childNodes[0].innerText;
+            swapSingle(j + 1, j);
 
             j--;
             await delayCode();
@@ -171,12 +186,32 @@ async function insertSort() {
                 allBars[k].style.background = 'white';
             }
         }
-        allBars[j + 1].style.height = key;
+        allBars[j + 1].style.height = key; //we can't put here 'parseInt(allBars[i].style.height);' because that would put there different 'key' cuz we are switching bars inside while
         allBars[j + 1].childNodes[0].innerText = keyLabelValue;
     }
-    //change all bars to color 'primaryMain'
-    for (let i = 0; i < allBars.length; i++) {
-        await delayCode(20);
-        changeBarColor(i, "primaryMain")
+    changeColorOfEveryBar();
+}
+
+async function bubbleSort() {
+    allBars = document.querySelectorAll(".bar");
+
+    for (let i = 0; i < allBars.length - 1; i++) {
+        await delayCode();
+        for (let j = 0; j < allBars.length - i - 1; j++) {
+            changeNumberOfComparisons();
+
+            changeBarColor(j, "primaryVariant");
+            changeBarColor(j + 1, "primaryVariant");
+
+            let key = parseInt(allBars[j].childNodes[0].innerHTML);
+            let keyPlusOne = parseInt(allBars[j + 1].childNodes[0].innerHTML);
+            if (key > keyPlusOne) swapBoth(j, j + 1);
+            await delayCode();
+
+            changeBarColor(j, "white");
+            changeBarColor(j + 1, "white");
+        }
+        changeBarColor(allBars.length - i - 1, "primaryMain");
     }
+    changeBarColor(0, "primaryMain");
 }
