@@ -67,10 +67,10 @@ function getWidthOfBar() {
 /**
  * Delays code for period of time(according to value from variable 'delaySpeed')
  */
-let delayCode = async () => {
+let delayCode = async (defaultDelay = delaySpeed) => {
     await new Promise((resolve) => setTimeout(() => {
         resolve();
-    }, delaySpeed));
+    }, defaultDelay));
 }
 
 /**
@@ -146,31 +146,37 @@ async function selectSort() {
 }
 
 
-/TODO: pri prehladavani sa swapuje kadzden jeden comparovany bar ... swapovat sa ma iba ten jeden vybraty
 async function insertSort() {
     allBars = document.querySelectorAll(".bar");
     let numberOfComparisons = 0;
 
     for (let i = 1; i < allBars.length; i++) {
-        changeBarColor(i, "green"); // current compared bar(value)
-        let j = 0;
-        while (j < i) {
-            document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`; //record number of comparision
+        changeBarColor(i, "green");
+        let j = i - 1;
+
+        let key = parseInt(allBars[i].style.height);
+        let keyLabelValue = allBars[i].childNodes[0].innerText;
+        await delayCode();
+        while (j >= 0 && (parseInt(allBars[j].style.height) > key)) {
+            document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`;
             numberOfComparisons++;
-            changeBarColor(j, "primaryVariant") //comapring this bar with allBars[i]
-            await delayCode();
 
-            let currentValue = parseInt(allBars[j].childNodes[0].innerHTML);
-            let minValue = parseInt(allBars[i].childNodes[0].innerHTML);
-            if (minValue >= currentValue) {
-                if (j !== i) changeBarColor(j, "primaryMain"); //already sorted bars
-                j++;
-            } else changeBarColor(j, "primaryMain"); //already sorted bars
+            changeBarColor(j, "primaryVariant"); //running color
+            allBars[j + 1].style.height = allBars[j].style.height;
+            allBars[j + 1].childNodes[0].innerText = allBars[j].childNodes[0].innerText;
 
-            swap(i, j);
+            j--;
             await delayCode();
-            changeBarColor(i, "green") //compared
+            for (let k = i; k >= 0; k--) {
+                allBars[k].style.background = 'white';
+            }
         }
+        allBars[j + 1].style.height = key;
+        allBars[j + 1].childNodes[0].innerText = keyLabelValue;
     }
-    changeBarColor(allBars.length - 1, "primaryMain")
+    //change all bars to color 'primaryMain'
+    for (let i = 0; i < allBars.length; i++) {
+        await delayCode(20);
+        changeBarColor(i, "primaryMain")
+    }
 }
