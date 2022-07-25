@@ -5,6 +5,11 @@ let numberOfComparisons = 0;
 
 createBars();
 
+/**
+ * Creating bars for sorting
+ * - size is based on the Array Size slider
+ * - numerical values only appear in the bars if the font size is smaller than the width of the bar itself
+ */
 function createBars() {
     removeAllChildNodes(container);
     const arraySize = document.getElementById("array_size").value;
@@ -13,7 +18,7 @@ function createBars() {
     document.getElementById("range_ArraySize").innerHTML = arraySize;
 
     for (let i = 0; i < arraySize; i++) {
-        //random value from 0 to 1000
+        //random value from 0 to 100
         const itemValue = Math.floor(Math.random() * 100)
 
         //creating individual bars into html
@@ -38,14 +43,21 @@ function createBars() {
     }
 }
 
+/**
+ * Setting current daley speed.
+ * - delay is based on the Sort Speed slider
+ */
 function setDelay() {
+    //setting delay speed
     const speed = document.getElementById("sort_speed").value;
     delaySpeed = speed;
+
+    //displaying speed value under SortSpeed slider
     document.getElementById("range_SortSpeed").innerHTML = speed;
 }
 
 /**
- * Function uset to delete all bars, when we create new ones
+ * Function uset to delete all bars. It is mainly used when we create new set of bars.
  * @param {*} parent node which will have all childNodes removed
  */
 function removeAllChildNodes(parent) {
@@ -68,6 +80,7 @@ function getWidthOfBar() {
 
 /**
  * Delays code for period of time(according to value from variable 'delaySpeed')
+ * Delay function is used to achieve better visualization.
  */
 let delayCode = async (defaultDelay = delaySpeed) => {
     await new Promise((resolve) => setTimeout(() => {
@@ -76,10 +89,9 @@ let delayCode = async (defaultDelay = delaySpeed) => {
 }
 
 /**
- * swapBoth 2 values
- * @param {*} allBars 
- * @param {*} i 
- * @param {*} minIndex 
+ * Swap 2 different bars. Function swaps their width and label/value.
+ * @param {*} i index of first bar to swap
+ * @param {*} minIndex index of second bar to swap
  */
 function swapBoth(i, minIndex) {
     let temp1 = allBars[minIndex].style.height;
@@ -91,6 +103,11 @@ function swapBoth(i, minIndex) {
     allBars[i].childNodes[0].innerText = temp2;
 }
 
+/**
+ * Swap single bar. Function swaps it's width and label/value.
+ * @param {*} first index of first bar to swap - this bar will have proberties of the 'second' bar
+ * @param {*} second index of second bar to swap - this bar will be used as barameter for the first bar
+ */
 function swapSingle(first, second) {
     allBars[first].style.height = allBars[second].style.height;
     allBars[first].childNodes[0].innerText = allBars[second].childNodes[0].innerText;
@@ -119,7 +136,9 @@ function changeBarColor(index, color) {
     allBars[index].style.backgroundColor = getHexColor();
 }
 
-//change all bars to color 'primaryMain'
+/**
+ * Change all bars to color 'primaryMain'
+ */
 async function changeColorOfEveryBar() {
     for (let i = 0; i < allBars.length; i++) {
         await delayCode(20);
@@ -127,6 +146,9 @@ async function changeColorOfEveryBar() {
     }
 }
 
+/**
+ * Function used to change/count number of compared values of the bars.
+ */
 function changeNumberOfComparisons() {
     document.getElementById('number_of_comparison').innerHTML = `Comparisons: ${numberOfComparisons}`;
     numberOfComparisons++;
@@ -214,4 +236,44 @@ async function bubbleSort() {
         changeBarColor(allBars.length - i - 1, "primaryMain");
     }
     changeBarColor(0, "primaryMain");
+}
+
+
+/**
+ * Bad functionality - doesnt work
+ */
+async function quickSort() {
+    allBars = document.querySelectorAll(".bar");
+    await delayCode();
+    await quick(0, allBars.length - 1); // 0 = min ; 'allbars.length' = max
+    await delayCode();
+}
+
+async function quick(min, max) {
+    let pivot = Math.round(allBars[(min + max) / 2]);
+    let left = min;
+    let right = max;
+
+    changeBarColor(Math.round((min + max) / 2), "primaryMain");
+
+    while (left < right) {
+        await delayCode();
+        while (allBars[left].childNodes[0].innerHTML < pivot) {
+            left++;
+            await delayCode();
+        }
+        while (allBars[right].childNodes[0].innerHTML > pivot) {
+            right--;
+            await delayCode();
+        }
+        if (left <= right) {
+            swapBoth(left, right);
+            left++;
+            right--;
+            await delayCode();
+        }
+    }
+    await delayCode();
+    if (min < right) quick(min, right);
+    if (left < max) quick(left, max);
 }

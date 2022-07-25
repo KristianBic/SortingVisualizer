@@ -10,8 +10,7 @@
 	<body>
 		<div class="header">
 			<h2 class="title" style="display: flex; align-items: center">
-				<img class="titleImage" src="../images/title_logo.svg" />Sorting
-				Visualizer
+				Sorting Visualizer
 			</h2>
 		</div>
 		<div class="content">
@@ -19,7 +18,7 @@
 				<button id="new_Array" class="btnArray" onclick="createBars()">
 					New Array
 				</button>
-				<h6>Array size</h6>
+				<h6>Array Size</h6>
 				<input
 					id="array_size"
 					class="rangeBar"
@@ -30,7 +29,7 @@
 					oninput="createBars()"
 				/>
 				<output id="range_ArraySize" class="rangevalue">20</output>
-				<h6>Sort speed</h6>
+				<h6>Sort Speed</h6>
 				<input
 					id="sort_speed"
 					class="rangeBar"
@@ -48,11 +47,14 @@
 				<button class="btnSort" onclick="selectSort()">Selection Sort</button>
 				<button class="btnSort" onclick="insertSort()">Insert Sort</button>
 				<button class="btnSort" onclick="bubbleSort()">Bubble Sort</button>
-				<button class="btnSort" onclick="quickSort()">Quick Sort</button>
-				<button class="btnSort" onclick="heapSort()">Heap Sort</button>
-				<button class="btnSort" onclick="shellSort()">Shell Sort</button>
-				<button class="btnSort" onclick="radixSort()">Radix Sort</button>
-				<button class="btnSort" onclick="mergeSort()">Merge Sort</button>
+				<button
+					style="opacity: 0.2"
+					class="btnSort"
+					onclick="quickSort()"
+					disabled
+				>
+					Quick Sort
+				</button>
 			</div>
 		</div>
 		<script src="../js/script.js"></script>
